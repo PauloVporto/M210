@@ -2,8 +2,6 @@
 
 Aplicação Streamlit para problemas de maximização e minimização com 2, 3 ou 4 variáveis de decisão não negativas, restrições ≤, ≥ e = e alterações sucessivas do lado direito (LD).
 
-Para estudar a implementação, consulte a [documentação completa](DOCUMENTACAO_COMPLETA.md). O [guia de apresentação](GUIA_APRESENTACAO.md) inclui uma demonstração de oito minutos e perguntas para a defesa.
-
 ## Executar
 
 Com Python 3.10 ou mais recente, execute na raiz do projeto:
