@@ -6,7 +6,7 @@ from dataclasses import dataclass, replace
 
 import numpy as np
 
-from tableau import Step, Tableau, TOL
+from quadro_simplex import Step, Tableau, TOL
 
 
 @dataclass(frozen=True)

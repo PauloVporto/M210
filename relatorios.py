@@ -8,9 +8,9 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
-from presentation import (conditions, delta_expression, manual_columns, manual_rows, objective_expression, objective_lines,
+from exibicao import (conditions, delta_expression, manual_columns, manual_rows, objective_expression, objective_lines,
                           objective_scale, pivot_lines, proposal_lines)
-from sensitivity import prices, ranges
+from analise_sensibilidade import prices, ranges
 
 
 REPORTS = {

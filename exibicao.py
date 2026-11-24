@@ -3,8 +3,8 @@
 from math import isinf, isnan
 from numbers import Real
 
-from resource_changes import operation_calculation, operation_description
-from tableau import TOL
+from contas_recursos import operation_calculation, operation_description
+from quadro_simplex import TOL
 
 
 DISPLAY_TOL = 1e-8

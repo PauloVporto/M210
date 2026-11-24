@@ -6,8 +6,8 @@ from dataclasses import dataclass, replace
 
 import numpy as np
 
-from simplex import Result, dual_reoptimize
-from tableau import TOL
+from metodo_simplex import Result, dual_reoptimize
+from quadro_simplex import TOL
 
 
 def prices(problem, result):

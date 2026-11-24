@@ -7,13 +7,13 @@ from unittest.mock import patch
 import numpy as np
 from streamlit.testing.v1 import AppTest
 
-from presentation import format_number, manual_rows
-from reports import REPORTS, report_pdf
-from resource_changes import relative_percentage, resource_rhs
-from simplex import Problem
-from state_manager import Session
+from exibicao import format_number, manual_rows
+from relatorios import REPORTS, report_pdf
+from contas_recursos import relative_percentage, resource_rhs
+from metodo_simplex import Problem
+from sessao import Session
 
-APP = Path(__file__).resolve().parents[1] / "app.py"
+APP = Path(__file__).resolve().parents[1] / "aplicacao.py"
 
 
 def render(session):
@@ -41,7 +41,7 @@ class ManualPresentationTests(unittest.TestCase):
         field = next(item for item in app.number_input if item.label == "Valor de R1")
         field.set_value(110.)
         submit = next(item for item in app.button if item.label == "Calcular novo Z")
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             submit.click().run()
         self.assertFalse(app.exception)
         text = displayed_text(app, 3)
@@ -142,7 +142,7 @@ class ManualPresentationTests(unittest.TestCase):
         app.multiselect[0].set_value([0, 1]).run()
         select_operation(1, "Aumentar", "%", 20.)
         select_operation(2, "Diminuir", "%", 10.)
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             submit()
             np.testing.assert_allclose(session.rhs, [120, 72])
             self.assertIn("ZNOVO = 2640", displayed_text(app, 3))
@@ -161,7 +161,7 @@ class ManualPresentationTests(unittest.TestCase):
         history = app.tabs[4].dataframe[0].value
         np.testing.assert_allclose(history["Variação (%)"].iloc[:2], [20, -10])
         np.testing.assert_allclose(history["Δ"].iloc[:2], [20, -8])
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             widget("button", "Restaurar problema original").click().run()
         self.assertFalse(app.exception)
         self.assertIs(session.current, session.original)
@@ -179,7 +179,7 @@ class ManualPresentationTests(unittest.TestCase):
             next(button for button in app.button if button.label == label).click().run()
             self.assertFalse(app.exception)
 
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             click("Diminuir todos os recursos em X%")
             saved = session.current
             np.testing.assert_allclose(session.rhs, [90, 72])
@@ -230,7 +230,7 @@ class ManualPresentationTests(unittest.TestCase):
         self.assertIn("Novo LD2 = 72", displayed_text(app, 3))
         self.assertEqual(len(session.history), 0)
         widget("number_input", "Valor de R1").set_value(20.)
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             widget("button", "Calcular novo Z").click().run()
         self.assertFalse(app.exception)
         change = session.history[-1]

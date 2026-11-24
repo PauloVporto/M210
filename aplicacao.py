@@ -3,15 +3,15 @@
 import pandas as pd
 import streamlit as st
 
-from presentation import (conditions, delta_expression, format_number, manual_columns, manual_rows, objective_expression,
+from exibicao import (conditions, delta_expression, format_number, manual_columns, manual_rows, objective_expression,
                           objective_lines, objective_scale, pivot_lines, proposal_lines)
-from reports import REPORTS, report_pdf
-from resource_changes import (operation_calculation, operation_description, relative_percentage,
+from relatorios import REPORTS, report_pdf
+from contas_recursos import (operation_calculation, operation_description, relative_percentage,
                               resource_rhs)
-from sensitivity import prices, ranges, slacks
-from simplex import Problem
-from state_manager import Session
-from tableau import TOL
+from analise_sensibilidade import prices, ranges, slacks
+from metodo_simplex import Problem
+from sessao import Session
+from quadro_simplex import TOL
 
 st.set_page_config(page_title="Simplex Tableau", layout="wide")
 st.title("Simplex Tableau")

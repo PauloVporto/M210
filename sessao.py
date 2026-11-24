@@ -6,8 +6,8 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from sensitivity import Change, change_rhs, prices, ranges, slacks
-from simplex import Problem, Result, solve
+from analise_sensibilidade import Change, change_rhs, prices, ranges, slacks
+from metodo_simplex import Problem, Result, solve
 
 
 @dataclass

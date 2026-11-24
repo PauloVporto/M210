@@ -3,9 +3,9 @@ from unittest.mock import patch
 
 import numpy as np
 
-from sensitivity import prices, ranges, slacks
-from simplex import Problem, solve
-from state_manager import Session
+from analise_sensibilidade import prices, ranges, slacks
+from metodo_simplex import Problem, solve
+from sessao import Session
 
 
 def example():
@@ -71,10 +71,10 @@ class SensitivityTests(unittest.TestCase):
         session = Session(example())
         original = session.original
         original_basic = original.tableau.rhs.copy()
-        with (patch("simplex.solve", side_effect=AssertionError),
-              patch("state_manager.solve", side_effect=AssertionError),
-              patch("simplex._run", side_effect=AssertionError),
-              patch("tableau.Tableau.pivot", side_effect=AssertionError)):
+        with (patch("metodo_simplex.solve", side_effect=AssertionError),
+              patch("sessao.solve", side_effect=AssertionError),
+              patch("metodo_simplex._run", side_effect=AssertionError),
+              patch("quadro_simplex.Tableau.pivot", side_effect=AssertionError)):
             first = session.apply([4.5, 2, 3])
             second = session.apply([4.5, 2.5, 3])
         self.assertEqual([first.new_z, second.new_z], [11, 11.5])
@@ -93,8 +93,8 @@ class SensitivityTests(unittest.TestCase):
         low, high = session.original_ranges.T
         self.assertTrue(np.all(np.array(proposed) >= low))
         self.assertTrue(np.all(np.array(proposed) <= high))
-        with (patch("simplex.solve", side_effect=AssertionError),
-              patch("state_manager.solve", side_effect=AssertionError)):
+        with (patch("metodo_simplex.solve", side_effect=AssertionError),
+              patch("sessao.solve", side_effect=AssertionError)):
             change = session.apply(proposed)
         self.assertTrue(change.violations)
         self.assertEqual(change.method, "Simplex Dual")
@@ -116,7 +116,7 @@ class SensitivityTests(unittest.TestCase):
 
     def test_three_confirmed_updates_from_request(self):
         session = Session(Problem([40, 30], [[2, 1], [1, 1]], ["≤"] * 2, [100, 80]))
-        with patch("simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
+        with patch("metodo_simplex._run", side_effect=AssertionError("Pivoteamento inesperado")):
             for rhs, z, point in (
                 ([110, 80], 2700, [30, 50]),
                 ([110, 88], 2860, [22, 66]),
